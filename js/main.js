@@ -48,6 +48,7 @@ export function go(id, skipAnim = false) {
   const behavior = id === 'cart' ? 'auto' : 'smooth';
   shell.scrollTo({ top: 0, behavior });
   window.scrollTo({ top: 0, behavior });
+  updateFloatingCart();
 }
 
 // Language Menu

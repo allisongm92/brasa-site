@@ -2199,11 +2199,68 @@ button:active,
   box-shadow: inset 0 0 40px rgba(255, 77, 0, 0.15);
 }
 
-/* Reduced Transparency Fallbacks */
-@media (prefers-reduced-transparency: reduce) {
-  .topbar, .sticky-cta {
-    background: var(--surface);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
+/* Floating Cart */
+.floating-cart-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.5rem;
+  width: 64px;
+  height: 64px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(255, 77, 0, 0.4);
+  z-index: 1000;
+  border: 4px solid var(--surface);
+  color: white;
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+}
+
+.floating-cart-btn.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+.floating-cart-btn svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+
+.floating-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #fff;
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 900;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.quantity-control button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px; /* Aumentado para melhor hitbox */
 }
