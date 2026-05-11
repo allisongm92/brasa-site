@@ -11,7 +11,8 @@ import {
   selectedProduct,
   updateScreenTotal,
   renderCartList,
-  updateCartTotals
+  updateCartTotals,
+  processWhatsAppCheckout
 } from './ui/render.js';
 import { 
   updateHeroExperience, 
@@ -132,9 +133,17 @@ document.addEventListener('click', event => {
 
   // Add to order (from product detail or customize screen)
   const stickyAddBtn = event.target.closest('.sticky-cta button');
-  if (stickyAddBtn) {
+  if (stickyAddBtn && !stickyAddBtn.classList.contains('checkout-btn')) {
     event.preventDefault();
     handleMainAddToCart(stickyAddBtn);
+    return;
+  }
+
+  // Checkout button
+  const checkoutBtn = event.target.closest('.checkout-btn');
+  if (checkoutBtn) {
+    event.preventDefault();
+    processWhatsAppCheckout();
     return;
   }
 

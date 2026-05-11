@@ -268,6 +268,41 @@ export function updateCartTotals() {
   }
 }
 
+export function processWhatsAppCheckout() {
+  if (cart.items.length === 0) return;
+
+  const copy = translations[currentLang];
+  const phone = '5511999999999'; // Fictitious number as placeholder
+  let text = `*NOVO PEDIDO - BRASA BURGER* 🍔\n\n`;
+
+  cart.items.forEach(item => {
+    const product = productCatalog.find(p => p.id === item.productId);
+    const name = product ? productText(product, 'name') : 'Produto';
+    
+    text += `${item.quantity}x *${name}* - $${(item.price * item.quantity).toFixed(2)}\n`;
+    
+    if (item.mods && item.mods.length > 0) {
+      item.mods.forEach(mod => {
+        text += `  └ ${mod}\n`;
+      });
+    }
+  });
+
+  const subtotal = cart.getSubtotal();
+  const delivery = 3.50; // hardcoded logic used in updateCartDisplay
+  const tax = subtotal * 0.08;
+  const total = subtotal + delivery + tax;
+
+  text += `\n*RESUMO*\n`;
+  text += `Subtotal: $${subtotal.toFixed(2)}\n`;
+  text += `Taxa de Entrega: $${delivery.toFixed(2)}\n`;
+  text += `Impostos: $${tax.toFixed(2)}\n`;
+  text += `*Total: $${total.toFixed(2)}*\n`;
+
+  const encoded = encodeURIComponent(text);
+  window.open(`https://wa.me/${phone}?text=${encoded}`, '_blank');
+}
+
 export function applyLanguage(lang) {
   setCurrentLang(lang);
   const copy = translations[lang];
