@@ -301,6 +301,26 @@ export function processWhatsAppCheckout() {
 
   const encoded = encodeURIComponent(text);
   window.open(`https://wa.me/${phone}?text=${encoded}`, '_blank');
+  
+  // Clear cart and show success screen
+  cart.clearCart();
+  go('success');
+}
+
+export function showToast(msg) {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+  
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  
+  container.appendChild(toast);
+  
+  // Animation handles most of it, but we clean up the DOM
+  setTimeout(() => {
+    if (toast.parentElement) toast.remove();
+  }, 3200);
 }
 
 export function applyLanguage(lang) {
@@ -448,4 +468,9 @@ export function applyLanguage(lang) {
   renderMenu();
   renderCartList(); // Re-render cart with new language
   updateCartTotals();
+
+  // Success Screen
+  setText('#success h1', copy.orderSent);
+  setText('#success p', copy.orderSentDesc);
+  setText('#success button', copy.backToMenu);
 }

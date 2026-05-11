@@ -8,11 +8,13 @@ import {
   renderMenu, 
   setCurrentCategory, 
   currentCategory,
-  selectedProduct,
   updateScreenTotal,
   renderCartList,
   updateCartTotals,
-  processWhatsAppCheckout
+  processWhatsAppCheckout,
+  showToast,
+  currentLang,
+  translations
 } from './ui/render.js';
 import { 
   updateHeroExperience, 
@@ -147,6 +149,14 @@ document.addEventListener('click', event => {
     return;
   }
 
+  // Success screen button
+  const successBackBtn = event.target.closest('#success button');
+  if (successBackBtn) {
+    event.preventDefault();
+    go('menu');
+    return;
+  }
+
   // Hero transition for products
   const heroSource = event.target.closest('.food-card[data-product-id], .menu-item[data-product-id], .feature-card[data-product-id]');
   if (heroSource) {
@@ -238,6 +248,7 @@ function handleAddToCart(button) {
 
   // Add to cart state (no modifiers, quantity 1)
   cart.addItem(product, 1, {});
+  showToast(translations[currentLang].toastAdded);
 
   button.classList.add('added');
   button.textContent = '\u2713'; // Checkmark
@@ -287,6 +298,7 @@ function handleMainAddToCart(button) {
   const qty = Number(root.querySelector('.quantity-control b')?.textContent || 1);
 
   cart.addItem(selectedProduct, qty, modifiers);
+  showToast(translations[currentLang].toastAdded);
   triggerCartBadgeBump();
 
   // Reset qty UI

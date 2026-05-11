@@ -147,6 +147,22 @@
       <section class="summary"><p><span>Subtotal</span><b>$20.50</b></p><p><span>Delivery fee</span><b>$3.99</b></p><p><span>Tax</span><b>$1.73</b></p><hr><p class="total"><span>Total</span><b>$26.22</b></p></section>
       <button class="checkout-btn">Proceed to checkout <b>$26.22</b> →</button>
     </section>
+    <!-- Success Screen -->
+    <section id="success" class="screen" aria-hidden="true">
+      <div class="success-content">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h1 data-i18n="orderSent">Order Sent!</h1>
+        <p data-i18n="orderSentDesc">Your order has been sent via WhatsApp. We will confirm it shortly.</p>
+        <button class="primary" data-i18n="backToMenu">Back to Menu</button>
+      </div>
+    </section>
+
+    <!-- Toasts -->
+    <div id="toast-container" aria-live="polite"></div>
   </main>
   <script type="module" src="js/main.js"></script>
 </body>

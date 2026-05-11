@@ -76,7 +76,11 @@ export const translations = {
     languageLabel: 'Alterar idioma',
     addLabel: 'Adicionar',
     heat: 'Ardor',
-    richness: 'Intensidade'
+    richness: 'Intensidade',
+    toastAdded: 'Item adicionado!',
+    orderSent: 'Pedido Enviado!',
+    orderSentDesc: 'Seu pedido foi enviado pelo WhatsApp. Confirmaremos em breve.',
+    backToMenu: 'Voltar ao Cardápio'
   },
   es: {
     code: 'ES',
@@ -155,7 +159,11 @@ export const translations = {
     languageLabel: 'Cambiar idioma',
     addLabel: 'Agregar',
     heat: 'Picor',
-    richness: 'Intensidad'
+    richness: 'Intensidad',
+    toastAdded: '¡Item agregado!',
+    orderSent: '¡Pedido Enviado!',
+    orderSentDesc: 'Tu pedido ha sido enviado por WhatsApp. Confirmaremos pronto.',
+    backToMenu: 'Volver al Menú'
   },
   en: {
     code: 'EN',
@@ -234,6 +242,10 @@ export const translations = {
     languageLabel: 'Change language',
     addLabel: 'Add',
     heat: 'Heat',
-    richness: 'Richness'
+    richness: 'Richness',
+    toastAdded: 'Item added!',
+    orderSent: 'Order Sent!',
+    orderSentDesc: 'Your order has been sent via WhatsApp. We will confirm it shortly.',
+    backToMenu: 'Back to Menu'
   }
 };
