@@ -1937,6 +1937,95 @@ button {
   max-width: 240px;
 }
 
+/* Active State Micro-interactions */
+button:active, 
+.category-card:active,
+.mood-chip:active,
+.product-card:active,
+.add-upsell-btn:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+/* Up-selling in Cart */
+.upsell-container {
+  margin-top: 24px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.upsell-container h3 {
+  font-size: 11px;
+  color: #777;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.upsell-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.upsell-list::-webkit-scrollbar {
+  display: none;
+}
+
+.upsell-card {
+  min-width: 190px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.upsell-card img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.upsell-info {
+  flex: 1;
+}
+
+.upsell-info h4 {
+  font-size: 13px;
+  margin: 0 0 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90px;
+}
+
+.upsell-info span {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.add-upsell-btn {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 /* Reduced Transparency Fallbacks */
 @media (prefers-reduced-transparency: reduce) {
   .topbar, .sticky-cta {

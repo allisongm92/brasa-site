@@ -80,7 +80,9 @@ export const translations = {
     toastAdded: 'Item adicionado!',
     orderSent: 'Pedido Enviado!',
     orderSentDesc: 'Seu pedido foi enviado pelo WhatsApp. Confirmaremos em breve.',
-    backToMenu: 'Voltar ao Cardápio'
+    backToMenu: 'Voltar ao Cardápio',
+    upsellTitle: 'Que tal acompanhar?',
+    upsellAdd: 'Adicionar'
   },
   es: {
     code: 'ES',
@@ -163,7 +165,9 @@ export const translations = {
     toastAdded: '¡Item agregado!',
     orderSent: '¡Pedido Enviado!',
     orderSentDesc: 'Tu pedido ha sido enviado por WhatsApp. Confirmaremos pronto.',
-    backToMenu: 'Volver al Menú'
+    backToMenu: 'Volver al Menú',
+    upsellTitle: '¿Qué tal acompañar?',
+    upsellAdd: 'Agregar'
   },
   en: {
     code: 'EN',
@@ -246,6 +250,8 @@ export const translations = {
     toastAdded: 'Item added!',
     orderSent: 'Order Sent!',
     orderSentDesc: 'Your order has been sent via WhatsApp. We will confirm it shortly.',
-    backToMenu: 'Back to Menu'
+    backToMenu: 'Back to Menu',
+    upsellTitle: 'How about a side?',
+    upsellAdd: 'Add'
   }
 };

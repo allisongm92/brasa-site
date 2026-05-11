@@ -236,6 +236,49 @@ export function renderCartList() {
       </article>
     `;
   }).join('');
+
+  // --- UPSell Logic ---
+  const hasSides = items.some(item => {
+    const p = productCatalog.find(prod => prod.id === item.productId);
+    return p && p.category === 'sides';
+  });
+  const hasDrinks = items.some(item => {
+    const p = productCatalog.find(prod => prod.id === item.productId);
+    return p && p.category === 'drinks';
+  });
+
+  let upsellHtml = '';
+  const upsellItems = [];
+
+  if (!hasSides) {
+    const fries = productCatalog.find(p => p.id === 'truffleFries');
+    if (fries) upsellItems.push(fries);
+  }
+  if (!hasDrinks) {
+    const coke = productCatalog.find(p => p.id === 'coke');
+    if (coke) upsellItems.push(coke);
+  }
+
+  if (upsellItems.length > 0) {
+    upsellHtml = `
+      <div class="upsell-container">
+        <h3>${copy.upsellTitle}</h3>
+        <div class="upsell-list">
+          ${upsellItems.map(p => `
+            <div class="upsell-card">
+              <img src="${p.img}" alt="${productText(p, 'name')}">
+              <div class="upsell-info">
+                <h4>${productText(p, 'name')}</h4>
+                <span>$${p.price.toFixed(2)}</span>
+              </div>
+              <button class="add-upsell-btn" data-id="${p.id}">${copy.upsellAdd}</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    container.innerHTML += upsellHtml;
+  }
 }
 
 export function updateCartTotals() {

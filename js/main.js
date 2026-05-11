@@ -136,6 +136,24 @@ document.addEventListener('click', event => {
     return;
   }
 
+  // Upsell buttons in cart
+  const upsellAddBtn = event.target.closest('.add-upsell-btn');
+  if (upsellAddBtn) {
+    event.preventDefault();
+    const productId = upsellAddBtn.dataset.id;
+    const product = productCatalog.find(p => p.id === productId);
+    if (product) {
+      cart.addItem({
+        productId: product.id,
+        quantity: 1,
+        price: product.price,
+        modifiers: {}
+      });
+      showToast(translations[currentLang].toastAdded);
+    }
+    return;
+  }
+
   // Add to order (from product detail or customize screen)
   const stickyAddBtn = event.target.closest('.sticky-cta button');
   if (stickyAddBtn && !stickyAddBtn.classList.contains('checkout-btn')) {
