@@ -272,7 +272,7 @@ export function processWhatsAppCheckout() {
   if (cart.items.length === 0) return;
 
   const copy = translations[currentLang];
-  const phone = '5511999999999'; // Fictitious number as placeholder
+  const phone = '5585996514681';
   let text = `*NOVO PEDIDO - BRASA BURGER* 🍔\n\n`;
 
   cart.items.forEach(item => {
