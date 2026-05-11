@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BRASA — Mobile Menu Prototype</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="phone-shell" id="app">
+    <div class="ember-layer" aria-hidden="true"></div>
+    <div class="hero-transition-overlay" id="heroOverlay" aria-hidden="true"></div>
+    <header class="topbar">
+      <button class="brand" data-screen="home" aria-label="Ir para início">
+        <svg class="brand-flame" viewBox="0 0 48 64" aria-hidden="true">
+          <path d="M29 2c9 11 9 19 4 27 6-3 9-8 10-14 8 12 5 30-5 39-9 8-24 8-32-1-9-10-5-24 4-31-1 8 2 13 7 16-3-14 2-24 12-36Z"></path>
+        </svg>
+        <span class="brand-word"><strong>BRASA</strong><small>hamburgueria</small></span>
+      </button>
+      <div class="top-actions">
+        <button class="cart-icon" data-screen="cart" aria-label="Abrir pedido"><span id="cartBadge">2</span></button>
+        <div class="language-picker">
+          <button class="language-toggle" id="languageToggle" aria-label="Alterar idioma" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>
+            <span id="languageCode">PT</span>
+          </button>
+          <div class="language-menu" id="languageMenu" hidden>
+            <button data-lang-option="pt">PT</button>
+            <button data-lang-option="es">ES</button>
+            <button data-lang-option="en">EN</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="screen active" id="home" data-title="home">
+
+      <section class="hero" id="hero">
+        <div class="hero-copy">
+          <h1><span>Smashed</span><span>to</span><span class="accent">Perfection</span></h1>
+          <p>Premium smash burgers, bold flavor, made fresh.</p>
+          <button class="primary" data-screen="menu">Start order <span>→</span></button>
+        </div>
+        <img class="hero-burger" src="assets/hero_burger.webp" alt="Brasa Double burger" />
+        <div class="hero-seals" aria-hidden="true">
+          <span>Smashed Fresh</span>
+          <span>Angus</span>
+          <span>Brasa Sauce</span>
+        </div>
+        <div class="burger-steam" aria-hidden="true"></div>
+        <div class="smoke"></div>
+      </section>
+
+      <nav class="category-strip compact" aria-label="Categorias">
+        <button class="active" data-filter="burgers"><span>☰</span>Burgers</button>
+        <button data-filter="sides"><span>▥</span>Sides</button>
+        <button data-filter="drinks"><span>◧</span>Drinks</button>
+        <button data-filter="desserts"><span>♢</span>Desserts</button>
+      </nav>
+
+      <section class="craving-panel">
+        <div class="section-title"><h2>What are you craving?</h2></div>
+        <div class="mood-chips">
+          <button class="active" data-mood="classic">Classic</button>
+          <button data-mood="spicy">Spicy</button>
+          <button data-mood="cheesy">Cheesy</button>
+          <button data-mood="premium">Premium</button>
+          <button data-mood="quick">Quick bite</button>
+        </div>
+      </section>
+
+      <section class="popular">
+        <div class="section-title"><h2>Popular today</h2><button data-screen="menu">View all →</button></div>
+        <div class="card-carousel" id="popularCards"></div>
+      </section>
+
+      <section class="brand-seals">
+        <article><span>⌑</span><b>Premium ingredients</b><small>Quality you can taste.</small></article>
+        <article><span>≋</span><b>Smashed fresh</b><small>Never frozen.</small></article>
+        <article><span>♨</span><b>Bold flavor</b><small>Made to crave.</small></article>
+      </section>
+    </section>
+
+    <section class="screen" id="menu" data-title="menu">
+      <nav class="category-strip"><button class="active" data-category="burgers">Burgers</button><button data-category="sides">Sides</button><button data-category="drinks">Drinks</button><button data-category="desserts">Desserts</button></nav>
+      <article class="feature-card" data-product-id="brasaDouble" tabindex="0" role="button">
+        <div><small>♨ Signature</small><h2 data-hero-name>The Brasa Double</h2><p>Two smashed beef patties, sharp cheddar, bacon, crispy onions, Brasa sauce and brioche bun.</p><b>View details →</b></div>
+        <img src="assets/double_burger.webp" alt="The Brasa Double" data-hero-img />
+      </article>
+      <div class="section-title"><h2>Our burgers</h2></div>
+      <div class="menu-list" id="menuList"></div>
+    </section>
+
+    <section class="screen" id="product" data-title="product">
+      <button class="back" data-screen="menu">←</button>
+      <article class="product-hero">
+        <div class="product-copy">
+          <small>♨ Signature</small>
+          <h1>The Brasa Double</h1>
+          <strong>$16</strong>
+          <p>Two smashed beef patties, sharp cheddar, bacon, crispy onions, Brasa sauce and brioche bun.</p>
+        </div>
+        <img src="assets/double_burger.webp" alt="The Brasa Double" />
+      </article>
+      <section class="product-options" aria-label="Customize burger">
+        <section class="option-card">
+          <div class="option-heading"><span class="option-icon">▰</span><div><h2>Cheese</h2><p>Choose your cheese</p></div></div>
+          <div class="segmented"><button class="selected">Sharp Cheddar</button><button>American</button><button>Swiss</button><button class="dashed">+ Extra Cheddar +$1</button></div>
+        </section>
+        <section class="option-card">
+          <div class="option-heading"><span class="option-icon">♢</span><div><h2>Sauce</h2><p>Select your sauce</p></div></div>
+          <div class="segmented"><button class="selected">Brasa Sauce</button><button>Truffle Aioli</button><button>Spicy Jalapeño</button><button>Garlic Mayo</button></div>
+        </section>
+        <section class="option-card">
+          <div class="option-heading"><span class="option-icon">−</span><div><h2>Remove ingredients</h2><p>Customize your burger</p></div></div>
+          <div class="toggle-grid"><label>Onions<input type="checkbox" checked></label><label>Pickles<input type="checkbox"></label><label>Tomatoes<input type="checkbox"></label><label>Lettuce<input type="checkbox"></label></div>
+        </section>
+        <section class="option-card">
+          <div class="option-heading"><span class="option-icon">+</span><div><h2>Extras</h2><p>Add even more flavor</p></div></div>
+          <label class="extra"><input type="checkbox" checked data-price="2"> Extra Bacon <span>+$2</span></label><label class="extra"><input type="checkbox" checked data-price="1"> Jalapeños <span>+$1</span></label><label class="extra"><input type="checkbox" data-price="1"> Caramelized Onions <span>+$1</span></label><label class="extra"><input type="checkbox" data-price="1"> Fried Egg <span>+$1</span></label>
+        </section>
+        <section class="option-card quantity-card">
+          <div class="option-heading"><span class="option-icon">▭</span><div><h2>Quantity</h2><p>How many would you like?</p></div></div>
+          <div class="quantity-control"><button data-qty="minus">−</button><b>1</b><button data-qty="plus">+</button></div>
+        </section>
+      </section>
+      <div class="sticky-cta"><div><b>$16</b><small>View order</small></div><button data-screen="cart">Add to order <span>🛒</span></button></div>
+    </section>
+
+    <section class="screen" id="customize" data-title="customize">
+      <button class="back" data-screen="product">←</button>
+      <article class="mini-product"><img src="assets/custom_header.webp" alt="Burger customization"><div><small>Customizing</small><h1>The Brasa Double</h1><strong id="customPrice">$20</strong></div></article>
+      <section class="option-card"><div class="option-heading"><span class="option-icon">▰</span><div><h2>Cheese</h2><p>Choose your cheese</p></div></div><div class="segmented"><button class="selected">Sharp Cheddar</button><button>American</button><button>Swiss</button><button class="dashed">+ Extra Cheddar +$1</button></div></section>
+      <section class="option-card"><div class="option-heading"><span class="option-icon">♢</span><div><h2>Sauce</h2><p>Select your sauce</p></div></div><div class="segmented"><button class="selected">Brasa Sauce</button><button>Truffle Aioli</button><button>Spicy Jalapeño</button><button>Garlic Mayo</button></div></section>
+      <section class="option-card"><div class="option-heading"><span class="option-icon">−</span><div><h2>Remove ingredients</h2><p>Customize your burger</p></div></div><div class="toggle-grid"><label>Onions<input type="checkbox" checked></label><label>Pickles<input type="checkbox"></label><label>Tomatoes<input type="checkbox"></label><label>Lettuce<input type="checkbox"></label></div></section>
+      <section class="option-card"><div class="option-heading"><span class="option-icon">+</span><div><h2>Extras</h2><p>Add even more flavor</p></div></div><label class="extra"><input type="checkbox" checked data-price="2"> Extra Bacon <span>+$2</span></label><label class="extra"><input type="checkbox" checked data-price="1"> Jalapeños <span>+$1</span></label><label class="extra"><input type="checkbox" data-price="1"> Caramelized Onions <span>+$1</span></label><label class="extra"><input type="checkbox" data-price="1"> Fried Egg <span>+$1</span></label></section>
+      <section class="option-card quantity-card"><div class="option-heading"><span class="option-icon">▭</span><div><h2>Quantity</h2><p>How many would you like?</p></div></div><div class="quantity-control"><button data-qty="minus">−</button><b>1</b><button data-qty="plus">+</button></div></section>
+      <div class="sticky-cta"><div><small>Total</small><b id="totalPrice">$20</b></div><button data-screen="cart">Update order <span>🛒</span></button></div>
+    </section>
+
+    <section class="screen" id="cart" data-title="cart">
+      <button class="back" data-screen="home">←</button>
+      <h1 class="center-title">My Order</h1>
+      <div class="cart-list"></div>
+      <div class="fulfillment checkout"><button class="selected"><b>Pickup</b><small>Ready in 15–20 min</small></button><button><b>Delivery</b><small>30–40 min • $3.99</small></button></div>
+      <div class="promo">Promo code <span>Add code ›</span></div>
+      <section class="summary"><p><span>Subtotal</span><b>$20.50</b></p><p><span>Delivery fee</span><b>$3.99</b></p><p><span>Tax</span><b>$1.73</b></p><hr><p class="total"><span>Total</span><b>$26.22</b></p></section>
+      <button class="checkout-btn">Proceed to checkout <b>$26.22</b> →</button>
+    </section>
+  </main>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
