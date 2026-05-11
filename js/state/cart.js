@@ -89,12 +89,7 @@ export class CartState {
 
   getSubtotal() {
     return this.items.reduce((total, item) => {
-      // Calculate modifier price additions if any (e.g. Extra Cheddar = $1)
-      let modifiersCost = 0;
-      if (item.modifiers.cheese && item.modifiers.cheese.includes('+')) {
-        modifiersCost += 1; // Simplistic approach based on your UI
-      }
-      return total + ((item.price + modifiersCost) * item.quantity);
+      return total + (getItemUnitTotal(item) * item.quantity);
     }, 0);
   }
 
@@ -110,6 +105,30 @@ export class CartState {
   notifyListeners() {
     this.listeners.forEach(listener => listener(this.items));
   }
+}
+
+export function getModifierTotal(modifiers = {}) {
+  let total = 0;
+
+  if (Array.isArray(modifiers.choices)) {
+    total += modifiers.choices.reduce((sum, choice) => sum + Number(choice.price || 0), 0);
+  }
+
+  if (Array.isArray(modifiers.extras)) {
+    total += modifiers.extras.reduce((sum, extra) => sum + Number(extra.price || 0), 0);
+  }
+
+  // Backward compatibility for items already saved before structured modifiers.
+  if (modifiers.cheese && modifiers.cheese.includes('+')) {
+    const match = modifiers.cheese.match(/\+\$(\d+(?:\.\d+)?)/);
+    total += match ? Number(match[1]) : 1;
+  }
+
+  return total;
+}
+
+export function getItemUnitTotal(item) {
+  return Number(item.price || 0) + getModifierTotal(item.modifiers || {});
 }
 
 export const cart = new CartState();

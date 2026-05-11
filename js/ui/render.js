@@ -2,12 +2,16 @@
 
 import { productCatalog } from '../data/catalog.js';
 import { translations } from '../data/i18n.js';
-import { cart } from '../state/cart.js';
+import { cart, getItemUnitTotal } from '../state/cart.js';
 import { go } from '../main.js';
+
+const DELIVERY_FEE = 3.99;
+const FULFILLMENT_MODES = ['pickup', 'delivery'];
 
 export let currentLang = 'pt';
 export let selectedProduct = productCatalog[0];
 export let currentCategory = 'burgers';
+export let fulfillmentMode = 'pickup';
 
 export function setCurrentLang(lang) {
   currentLang = lang;
@@ -19,6 +23,25 @@ export function setSelectedProduct(product) {
 
 export function setCurrentCategory(cat) {
   currentCategory = cat;
+}
+
+export function setFulfillmentMode(mode) {
+  if (!FULFILLMENT_MODES.includes(mode)) return;
+  fulfillmentMode = mode;
+  syncFulfillmentButtons();
+  updateCartTotals();
+}
+
+function syncFulfillmentButtons() {
+  document.querySelectorAll('[data-fulfillment]').forEach(button => {
+    const isSelected = button.dataset.fulfillment === fulfillmentMode;
+    button.classList.toggle('selected', isSelected);
+    button.setAttribute('aria-pressed', String(isSelected));
+  });
+}
+
+function getDeliveryFee(subtotal) {
+  return subtotal > 0 && fulfillmentMode === 'delivery' ? DELIVERY_FEE : 0;
 }
 
 export const t = key => translations[currentLang][key];
@@ -185,12 +208,69 @@ export function screenExtrasTotal(screen) {
     .reduce((sum, item) => sum + Number(item.dataset.price || 0), 0);
 }
 
+function parsePriceFromText(text) {
+  const match = text.match(/\+\$(\d+(?:\.\d+)?)/);
+  return match ? Number(match[1]) : 0;
+}
+
+function screenChoicesTotal(screen) {
+  if (!screen) return 0;
+  return [...screen.querySelectorAll('.segmented button.selected')]
+    .reduce((sum, button) => sum + parsePriceFromText(button.textContent || ''), 0);
+}
+
 export function updateScreenTotal(screen) {
   if (!screen || !selectedProduct) return;
-  const total = (selectedProduct.price + screenExtrasTotal(screen)) * screenQuantity(screen);
+  const total = (selectedProduct.price + screenChoicesTotal(screen) + screenExtrasTotal(screen)) * screenQuantity(screen);
   screen.querySelectorAll('.sticky-cta b, #customPrice, #totalPrice').forEach(node => {
     node.textContent = '$' + total;
   });
+}
+
+function removalPrefix() {
+  if (currentLang === 'es') return 'Sin';
+  if (currentLang === 'en') return 'No';
+  return 'Sem';
+}
+
+function modifierPriceSuffix(price) {
+  return Number(price || 0) > 0 ? ` +$${Number(price).toFixed(2)}` : '';
+}
+
+function modifierLines(item) {
+  const modifiers = item.modifiers || {};
+  const lines = [];
+
+  if (Array.isArray(modifiers.choices)) {
+    modifiers.choices.forEach(choice => {
+      if (!choice.value) return;
+      lines.push(`${choice.label}: ${choice.value}${modifierPriceSuffix(choice.price)}`);
+    });
+  }
+
+  if (Array.isArray(modifiers.removals)) {
+    modifiers.removals.forEach(name => {
+      if (name) lines.push(`${removalPrefix()} ${name}`);
+    });
+  }
+
+  if (Array.isArray(modifiers.extras)) {
+    modifiers.extras.forEach(extra => {
+      if (!extra.label) return;
+      lines.push(`${extra.label}${modifierPriceSuffix(extra.price)}`);
+    });
+  }
+
+  if (!lines.length) {
+    if (modifiers.cheese) lines.push(modifiers.cheese);
+    if (modifiers.sauce) lines.push(modifiers.sauce);
+    Object.keys(modifiers).forEach(key => {
+      if (key.startsWith('no_')) lines.push(`${removalPrefix()} ${key.replace('no_', '')}`);
+      if (key.startsWith('extra_')) lines.push(key.replace('extra_', ''));
+    });
+  }
+
+  return lines;
 }
 
 export function renderCartList() {
@@ -223,6 +303,7 @@ export function renderCartList() {
   // Restore checkout button
   const checkoutBtn = document.querySelector('.checkout-btn');
   if (checkoutBtn) {
+    checkoutBtn.style.display = '';
     checkoutBtn.style.opacity = '1';
     checkoutBtn.style.pointerEvents = 'all';
   }
@@ -231,14 +312,9 @@ export function renderCartList() {
     const product = productCatalog.find(p => p.id === item.productId);
     if (!product) return '';
     
-    // Parse modifiers nicely (just a simple mapping for now)
-    const mods = [];
-    if (item.modifiers.cheese && !item.modifiers.cheese.includes('default')) mods.push(item.modifiers.cheese);
-    if (item.modifiers.sauce && !item.modifiers.sauce.includes('default')) mods.push(item.modifiers.sauce);
-    if (item.modifiers.noOnions) mods.push(copy.noOnions);
-    if (item.modifiers.extraCheddar) mods.push(copy.extraCheddar);
-    
+    const mods = modifierLines(item);
     const modString = mods.length > 0 ? mods.join('<br>') : '';
+    const lineTotal = getItemUnitTotal(item) * item.quantity;
     
     return `
       <article class="cart-item">
@@ -246,7 +322,7 @@ export function renderCartList() {
         <div class="cart-item-info">
           <h2>${productText(product, 'name')}</h2>
           <p>${modString}</p>
-          <strong>$${(item.price).toFixed(2)}</strong>
+          <strong>$${lineTotal.toFixed(2)}</strong>
         </div>
         <div class="cart-item-actions">
           <div class="quantity-control small">
@@ -306,7 +382,7 @@ export function renderCartList() {
 export function updateCartTotals() {
   const copy = translations[currentLang];
   const subtotal = cart.getSubtotal();
-  const delivery = subtotal > 0 ? 3.99 : 0;
+  const delivery = getDeliveryFee(subtotal);
   const tax = subtotal * 0.08;
   const total = subtotal + delivery + tax;
 
@@ -344,20 +420,19 @@ export function processWhatsAppCheckout() {
     const product = productCatalog.find(p => p.id === item.productId);
     const name = product ? productText(product, 'name') : 'Produto';
     
-    text += `${item.quantity}x *${name}* - $${(item.price * item.quantity).toFixed(2)}\n`;
+    text += `${item.quantity}x *${name}* - $${(getItemUnitTotal(item) * item.quantity).toFixed(2)}\n`;
     
-    if (item.mods && item.mods.length > 0) {
-      item.mods.forEach(mod => {
-        text += `  └ ${mod}\n`;
-      });
-    }
+    modifierLines(item).forEach(mod => {
+      text += `  - ${mod}\n`;
+    });
   });
 
   const subtotal = cart.getSubtotal();
-  const delivery = 3.50; // hardcoded logic used in updateCartDisplay
+  const delivery = getDeliveryFee(subtotal);
   const tax = subtotal * 0.08;
   const total = subtotal + delivery + tax;
 
+  text += `Tipo de pedido: ${fulfillmentMode === 'delivery' ? copy.delivery : copy.pickup}\n`;
   text += `\n*RESUMO*\n`;
   text += `Subtotal: $${subtotal.toFixed(2)}\n`;
   text += `Taxa de Entrega: $${delivery.toFixed(2)}\n`;
@@ -442,6 +517,7 @@ export function applyLanguage(lang) {
     if(b1) b1.textContent = copy.pickup;
     if(b2) b2.textContent = copy.delivery;
   });
+  syncFulfillmentButtons();
   
   const cartFulfillmentBtn1Small = document.querySelector('#cart .fulfillment button:nth-child(1) small');
   const cartFulfillmentBtn2Small = document.querySelector('#cart .fulfillment button:nth-child(2) small');

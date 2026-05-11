@@ -2,7 +2,7 @@ export const translations = {
   pt: {
     code: 'PT',
     htmlLang: 'pt-BR',
-    brandAria: 'Ir para inicio',
+    brandAria: 'Ir para início',
     cartAria: 'Abrir pedido',
     pickup: 'Retirada',
     pickupTime: '15-20 min',
@@ -13,8 +13,8 @@ export const translations = {
     startOrder: 'Começar pedido',
     viewMenu: 'Ver menu',
     heroSeals: ['Smashed fresco', 'Angus', 'Molho Brasa'],
-    categories: ['Burgers', 'Acomp.', 'Bebidas', 'Sobremesas'],
-    cravingTitle: 'O que voce quer hoje?',
+    categories: ['Hambúrgueres', 'Acompanhamentos', 'Bebidas', 'Sobremesas'],
+    cravingTitle: 'O que você quer hoje?',
     moods: {
       classic: 'Clássico',
       spicy: 'Picante',

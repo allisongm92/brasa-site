@@ -7,6 +7,7 @@ import {
   renderCards, 
   renderMenu, 
   setCurrentCategory, 
+  setFulfillmentMode,
   currentCategory,
   selectedProduct,
   updateScreenTotal,
@@ -49,6 +50,49 @@ export function go(id, skipAnim = false) {
   shell.scrollTo({ top: 0, behavior });
   window.scrollTo({ top: 0, behavior });
   updateFloatingCart();
+}
+
+function activateMenuCategory(category, shouldOpenMenu = false) {
+  setCurrentCategory(category);
+
+  document.querySelectorAll('.category-strip button').forEach(button => {
+    const val = button.dataset.category || button.dataset.filter;
+    const isActive = val === category;
+    button.classList.toggle('active', isActive);
+    
+    // Auto-center the active button in the strip
+    if (isActive) {
+      button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  });
+
+  const title = document.querySelector('#menu .section-title h2');
+  const categories = ['burgers', 'sides', 'drinks', 'desserts'];
+  const index = categories.indexOf(category);
+  if (title && index >= 0) {
+    title.textContent = translations[currentLang].categories[index];
+  }
+
+  if (shouldOpenMenu) {
+    go('menu');
+  }
+
+  const scrollMenuToCategory = () => {
+    const slider = document.getElementById('menuList');
+    const targetSection = slider?.querySelector(`.category-section[data-cat="${category}"]`);
+    if (slider && targetSection) {
+      const previousScrollBehavior = slider.style.scrollBehavior;
+      if (shouldOpenMenu) slider.style.scrollBehavior = 'auto';
+      slider.scrollLeft = targetSection.offsetLeft;
+      if (shouldOpenMenu) slider.style.scrollBehavior = previousScrollBehavior;
+      if (!shouldOpenMenu) {
+        slider.scrollTo({ left: targetSection.offsetLeft, behavior: 'smooth' });
+      }
+    }
+  };
+
+  requestAnimationFrame(scrollMenuToCategory);
+  if (shouldOpenMenu) window.setTimeout(scrollMenuToCategory, 80);
 }
 
 // Language Menu
@@ -98,6 +142,7 @@ document.addEventListener('click', event => {
     event.preventDefault();
     segmentedButton.parentElement.querySelectorAll('button').forEach(button => button.classList.remove('selected'));
     segmentedButton.classList.add('selected');
+    updateScreenTotal(segmentedButton.closest('.screen') || document);
     return;
   }
 
@@ -129,6 +174,13 @@ document.addEventListener('click', event => {
     return;
   }
 
+  const fulfillmentButton = event.target.closest('[data-fulfillment]');
+  if (fulfillmentButton) {
+    event.preventDefault();
+    setFulfillmentMode(fulfillmentButton.dataset.fulfillment);
+    return;
+  }
+
   // Add to cart buttons (from menu or cards)
   const addButton = event.target.closest('.add-btn');
   if (addButton) {
@@ -145,12 +197,7 @@ document.addEventListener('click', event => {
     const productId = upsellAddBtn.dataset.id;
     const product = productCatalog.find(p => p.id === productId);
     if (product) {
-      cart.addItem({
-        productId: product.id,
-        quantity: 1,
-        price: product.price,
-        modifiers: {}
-      });
+      cart.addItem(product, 1, {});
       showToast(translations[currentLang].toastAdded);
     }
     return;
@@ -197,17 +244,7 @@ document.addEventListener('click', event => {
   const categoryBtn = event.target.closest('.category-strip button');
   if (categoryBtn) {
     const newCategory = categoryBtn.dataset.category || categoryBtn.dataset.filter || 'burgers';
-    const slider = document.getElementById('menuList');
-    const targetSection = slider.querySelector(`.category-section[data-cat="${newCategory}"]`);
-    
-    if (targetSection) {
-      slider.scrollTo({ left: targetSection.offsetLeft, behavior: 'smooth' });
-    } else {
-      // Fallback for home screen quick navigation
-      setCurrentCategory(newCategory);
-      renderMenu();
-      if (categoryBtn.closest('#home')) go('menu');
-    }
+    activateMenuCategory(newCategory, Boolean(categoryBtn.closest('#home')));
     return;
   }
 
@@ -262,6 +299,20 @@ function triggerCartBadgeBump() {
   badge.classList.add('bump');
 }
 
+function parsePriceFromText(text) {
+  const match = text.match(/\+\$(\d+(?:\.\d+)?)/);
+  return match ? Number(match[1]) : 0;
+}
+
+function cleanModifierText(text) {
+  return text.replace(/\+\$\d+(?:\.\d+)?/g, '').replace(/^\+\s*/, '').trim();
+}
+
+function labelText(label) {
+  const textNode = [...label.childNodes].find(node => node.nodeType === Node.TEXT_NODE);
+  return (textNode?.textContent || label.textContent || '').trim();
+}
+
 function handleAddToCart(button) {
   // Haptic feedback
   if (navigator.vibrate) navigator.vibrate(50);
@@ -294,8 +345,11 @@ function handleMainAddToCart(button) {
 
   const screen = button.closest('.screen') || document.getElementById('product');
   
-  // Collect modifiers from the screen
-  const modifiers = {};
+  const modifiers = {
+    choices: [],
+    removals: [],
+    extras: []
+  };
   
   // If we are in customize screen, read actual modifiers
   // For simplicity, we just check what's selected
@@ -303,22 +357,38 @@ function handleMainAddToCart(button) {
   const root = isCustomize ? document.getElementById('customize') : document.getElementById('product');
   
   const cheeseBtn = root.querySelector('.option-card:nth-child(1) button.selected');
-  if (cheeseBtn) modifiers.cheese = cheeseBtn.textContent.trim();
+  if (cheeseBtn) {
+    const text = cheeseBtn.textContent.trim();
+    modifiers.choices.push({
+      label: translations[currentLang].cheese,
+      value: cleanModifierText(text),
+      price: parsePriceFromText(text)
+    });
+  }
   
   const sauceBtn = root.querySelector('.option-card:nth-child(2) button.selected');
-  if (sauceBtn) modifiers.sauce = sauceBtn.textContent.trim();
+  if (sauceBtn) {
+    modifiers.choices.push({
+      label: translations[currentLang].sauce,
+      value: sauceBtn.textContent.trim(),
+      price: 0
+    });
+  }
 
   root.querySelectorAll('.toggle-grid input[type="checkbox"]').forEach(input => {
-    if (!input.checked) {
-      const label = input.closest('label').textContent.trim();
-      modifiers[`no_${label}`] = true;
+    if (input.checked) {
+      const label = labelText(input.closest('label'));
+      modifiers.removals.push(label);
     }
   });
 
   root.querySelectorAll('.extra input[type="checkbox"]').forEach(input => {
     if (input.checked) {
-      const label = input.closest('label').textContent.trim();
-      modifiers[`extra_${label}`] = true;
+      const label = labelText(input.closest('label'));
+      modifiers.extras.push({
+        label,
+        price: Number(input.dataset.price || 0)
+      });
     }
   });
 
@@ -355,12 +425,16 @@ if (menuList) {
     const categories = ['burgers', 'sides', 'drinks', 'desserts'];
     const cat = categories[index];
     
-    if (cat) {
+    if (cat && cat !== currentCategory) {
       setCurrentCategory(cat);
-      // Update buttons
+      // Update buttons and center them
       document.querySelectorAll('.category-strip button').forEach(button => {
         const val = button.dataset.category || button.dataset.filter;
-        button.classList.toggle('active', val === cat);
+        const isActive = val === cat;
+        button.classList.toggle('active', isActive);
+        if (isActive) {
+          button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
       });
       // Update Title
       const title = document.querySelector('#menu .section-title h2');

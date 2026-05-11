@@ -621,6 +621,8 @@ button {
   overflow-y: hidden;
   max-width: 100%;
   padding: 8px;
+  scroll-padding-inline: 8px;
+  scroll-snap-type: x proximity;
   margin: 0 0 24px;
   border-radius: 24px;
   position: relative;
@@ -641,11 +643,12 @@ button {
 .category-strip button {
   white-space: nowrap;
   border-radius: 18px;
-  padding: 11px 8px;
+  padding: 11px 14px;
   color: #ddd;
   border: 1px solid transparent;
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 0 0 auto;
+  min-width: max-content;
+  scroll-snap-align: start;
   text-align: center;
   font-size: 15px;
   display: inline-flex;
@@ -1819,7 +1822,7 @@ button {
   }
 
   .category-strip button {
-    padding-inline: 6px;
+    padding-inline: 12px;
     font-size: 14px;
   }
 

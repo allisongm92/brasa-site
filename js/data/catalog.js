@@ -18,7 +18,7 @@ export const productCatalog = [
       en: ['Crispy crust', 'Smoky bacon', 'Sharp cheddar']
     },
     smash: 88,
-    heat: { pt: 'Medio', es: 'Medio', en: 'Medium' },
+    heat: { pt: 'Médio', es: 'Medio', en: 'Medium' },
     richness: { pt: 'Marcante', es: 'Intensa', en: 'Bold' }
   },
   {
@@ -27,15 +27,15 @@ export const productCatalog = [
     name: { pt: 'Fritas Trufadas', es: 'Papas Trufadas', en: 'Truffle Fries' },
     price: 6,
     desc: {
-      pt: 'Batatas crocantes com azeite trufado, parmesao, cebolinha e aioli.',
-      es: 'Papas crujientes con aceite de trufa, parmesano, cebollin y aioli.',
+      pt: 'Batatas crocantes com azeite trufado, parmesão, cebolinha e aioli.',
+      es: 'Papas crujientes con aceite de trufa, parmesano, cebollín y aioli.',
       en: 'Crispy fries, truffle oil, parmesan, chives and truffle aioli.'
     },
     img: 'assets/fries.webp',
     tag: { pt: 'Favorito da casa', es: 'Favorito de la casa', en: 'House favorite' },
     moods: ['premium', 'cheesy', 'quick'],
     profile: {
-      pt: ['Aioli trufado', 'Parmesao', 'Pontas crocantes'],
+      pt: ['Aioli trufado', 'Parmesão', 'Pontas crocantes'],
       es: ['Aioli trufado', 'Parmesano', 'Bordes crujientes'],
       en: ['Truffle aioli', 'Parmesan', 'Crispy edges']
     },
@@ -46,7 +46,7 @@ export const productCatalog = [
   {
     id: 'classicSmash',
     category: 'burgers',
-    name: { pt: 'Smash Classico', es: 'Smash Clasico', en: 'Classic Smash' },
+    name: { pt: 'Smash Clássico', es: 'Smash Clásico', en: 'Classic Smash' },
     price: 12,
     desc: {
       pt: 'Carne prensada na chapa, queijo americano, picles, cebola, ketchup e mostarda.',
@@ -54,11 +54,11 @@ export const productCatalog = [
       en: 'Smashed beef patty, American cheese, pickles, onions, ketchup and mustard.'
     },
     img: 'assets/classic_burger.webp',
-    tag: { pt: 'Classico', es: 'Clasico', en: 'Classic' },
+    tag: { pt: 'Clássico', es: 'Clásico', en: 'Classic' },
     moods: ['classic', 'quick'],
     profile: {
-      pt: ['Picles acido', 'Queijo americano', 'Crosta de chapa'],
-      es: ['Pepinillo acido', 'Queso americano', 'Costra de plancha'],
+      pt: ['Picles ácido', 'Queijo americano', 'Crosta de chapa'],
+      es: ['Pepinillo ácido', 'Queso americano', 'Costra de plancha'],
       en: ['Pickle snap', 'American cheese', 'Griddle crust']
     },
     smash: 76,
@@ -71,7 +71,7 @@ export const productCatalog = [
     name: { pt: 'Trufa e Cogumelos', es: 'Trufa y Hongos', en: 'Truffle Mushroom' },
     price: 14,
     desc: {
-      pt: 'Smash burger com cogumelos trufados, queijo suico e aioli de alho.',
+      pt: 'Smash burger com cogumelos trufados, queijo suíço e aioli de alho.',
       es: 'Smash burger con hongos trufados, queso suizo y aioli de ajo.',
       en: 'Smashed beef patty, truffle mushrooms, swiss cheese and garlic aioli.'
     },
@@ -79,7 +79,7 @@ export const productCatalog = [
     tag: { pt: 'Premium', es: 'Premium', en: 'Premium' },
     moods: ['premium'],
     profile: {
-      pt: ['Cogumelos trufados', 'Suico derretido', 'Aioli de alho'],
+      pt: ['Cogumelos trufados', 'Suíço derretido', 'Aioli de alho'],
       es: ['Hongos trufados', 'Suizo fundido', 'Aioli de ajo'],
       en: ['Truffle mushroom', 'Swiss melt', 'Garlic aioli']
     },
@@ -90,20 +90,20 @@ export const productCatalog = [
   {
     id: 'spicyJalapeno',
     category: 'burgers',
-    name: { pt: 'Jalapeno Picante', es: 'Jalapeno Picante', en: 'Spicy Jalapeno' },
+    name: { pt: 'Jalapeño Picante', es: 'Jalapeño Picante', en: 'Spicy Jalapeno' },
     price: 13,
     desc: {
-      pt: 'Cheddar intenso, jalapenos, cebola crocante e molho Brasa picante.',
-      es: 'Cheddar intenso, jalapenos, cebolla crujiente y salsa Brasa picante.',
-      en: 'Sharp cheddar, jalapenos, crispy onions and spicy Brasa sauce.'
+      pt: 'Cheddar intenso, jalapeños, cebola crocante e molho Brasa picante.',
+      es: 'Cheddar intenso, jalapeños, cebolla crujiente y salsa Brasa picante.',
+      en: 'Sharp cheddar, jalapeños, crispy onions and spicy Brasa sauce.'
     },
     img: 'assets/double_burger.webp',
     tag: { pt: 'Picante', es: 'Picante', en: 'Spicy' },
     moods: ['spicy', 'cheesy', 'quick'],
     profile: {
-      pt: ['Ardor de jalapeno', 'Cebola crocante', 'Molho Brasa'],
-      es: ['Picor de jalapeno', 'Cebolla crujiente', 'Salsa Brasa'],
-      en: ['Jalapeno heat', 'Crispy onions', 'Brasa sauce']
+      pt: ['Ardor de jalapeño', 'Cebola crocante', 'Molho Brasa'],
+      es: ['Picor de jalapeño', 'Cebolla crujiente', 'Salsa Brasa'],
+      en: ['Jalapeño heat', 'Crispy onions', 'Brasa sauce']
     },
     smash: 82,
     heat: { pt: 'Picante', es: 'Picante', en: 'Spicy' },
@@ -115,7 +115,7 @@ export const productCatalog = [
     name: { pt: 'Onion Rings', es: 'Aros de Cebolla', en: 'Onion Rings' },
     price: 7,
     desc: {
-      pt: 'Aneis de cebola empanados e super crocantes com molho Brasa.',
+      pt: 'Anéis de cebola empanados e super crocantes com molho Brasa.',
       es: 'Aros de cebolla empanizados y super crujientes con salsa Brasa.',
       en: 'Crispy breaded onion rings served with Brasa sauce.'
     },
@@ -137,16 +137,16 @@ export const productCatalog = [
     name: { pt: 'Batata Canoa', es: 'Papas Gajo', en: 'Potato Wedges' },
     price: 6,
     desc: {
-      pt: 'Batatas rusticas em formato canoa, temperadas com ervas finas.',
-      es: 'Papas rusticas en forma de gajo, condimentadas con finas hierbas.',
+      pt: 'Batatas rústicas em formato canoa, temperadas com ervas finas.',
+      es: 'Papas rústicas en forma de gajo, condimentadas con finas hierbas.',
       en: 'Rustic potato wedges seasoned with fine herbs.'
     },
     img: 'assets/wedges.webp',
-    tag: { pt: 'Rustica', es: 'Rustica', en: 'Rustic' },
+    tag: { pt: 'Rústica', es: 'Rústica', en: 'Rustic' },
     moods: ['classic'],
     profile: {
       pt: ['Ervas finas', 'Interior macio', 'Casca crocante'],
-      es: ['Finas hierbas', 'Interior suave', 'Cascara crujiente'],
+      es: ['Finas hierbas', 'Interior suave', 'Cáscara crujiente'],
       en: ['Fine herbs', 'Soft inside', 'Crispy skin']
     },
     smash: 40,
@@ -159,7 +159,7 @@ export const productCatalog = [
     name: { pt: 'Fritas Cheddar & Bacon', es: 'Papas Cheddar y Tocino', en: 'Cheddar Bacon Fries' },
     price: 9,
     desc: {
-      pt: 'Batatas crocantes cobertas com muito cheddar derretido e pedacos de bacon.',
+      pt: 'Batatas crocantes cobertas com muito cheddar derretido e pedaços de bacon.',
       es: 'Papas crujientes cubiertas con mucho cheddar derretido y trozos de tocino.',
       en: 'Crispy fries loaded with melted cheddar cheese and bacon bits.'
     },
@@ -203,15 +203,15 @@ export const productCatalog = [
     name: { pt: 'Coca-Cola', es: 'Coca-Cola', en: 'Coca-Cola' },
     price: 4,
     desc: {
-      pt: 'Refrigerante de cola gelado com muito gelo e limao.',
-      es: 'Refresco de cola frio con mucho hielo y limon.',
+      pt: 'Refrigerante de cola gelado com muito gelo e limão.',
+      es: 'Refresco de cola frío con mucho hielo y limón.',
       en: 'Ice cold cola with lots of ice and a slice of lemon.'
     },
     img: 'assets/coke.webp',
     tag: { pt: 'Gelada', es: 'Fria', en: 'Ice cold' },
     moods: ['classic', 'quick'],
     profile: {
-      pt: ['Gelo', 'Gas', 'Refrescante'],
+      pt: ['Gelo', 'Gás', 'Refrescante'],
       es: ['Hielo', 'Gas', 'Refrescante'],
       en: ['Ice', 'Fizz', 'Refreshing']
     },
@@ -233,7 +233,7 @@ export const productCatalog = [
     tag: { pt: 'Brasileiro', es: 'Brasileño', en: 'Brazilian' },
     moods: ['classic'],
     profile: {
-      pt: ['Gelo', 'Gas', 'Original'],
+      pt: ['Gelo', 'Gás', 'Original'],
       es: ['Hielo', 'Gas', 'Original'],
       en: ['Ice', 'Fizz', 'Original']
     },
