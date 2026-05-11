@@ -1015,6 +1015,42 @@ button {
   font-size: 11px;
 }
 
+/* Menu Slider Architecture */
+#menuList {
+  display: flex !important;
+  flex-direction: row !important;
+  overflow-x: auto !important;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  gap: 0 !important;
+  padding: 0 !important;
+  scrollbar-width: none;
+}
+
+#menuList::-webkit-scrollbar {
+  display: none;
+}
+
+.category-section {
+  min-width: 100%;
+  scroll-snap-align: start;
+  padding: 0 16px 120px 16px;
+  box-sizing: border-box;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 16px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
 .feature-card {
   display: grid;
   grid-template-columns: 1.1fr .9fr;
@@ -1978,22 +2014,45 @@ button:active,
   transition: transform 0.1s ease;
 }
 
+.social-proof-label {
+  display: block;
+  font-size: 10px;
+  color: #777;
+  font-weight: 800;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Fry Confetti Animation */
+.fry-particle {
+  position: fixed;
+  top: -50px;
+  z-index: 10000;
+  pointer-events: none;
+  animation: fryFall linear forwards;
+  font-size: 24px;
+}
+
+@keyframes fryFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
 /* Up-selling in Cart */
 .upsell-container {
   margin-top: 24px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-.upsell-container h3 {
-  font-size: 11px;
-  color: #777;
-  margin-bottom: 12px;
+.upsell-container h4 {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 16px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-weight: 700;
 }
 
 .upsell-list {
@@ -2055,6 +2114,67 @@ button:active,
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
+}
+
+/* Brasa Sparks Animation */
+.spark {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #FFD700, #FF4D00);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 11000;
+  box-shadow: 0 0 8px #FF4D00;
+  animation: sparkPop 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes sparkPop {
+  0% { transform: scale(0); opacity: 1; }
+  50% { opacity: 1; }
+  100% { 
+    transform: translate(var(--tx), var(--ty)) scale(1.5); 
+    opacity: 0; 
+  }
+}
+
+/* Active Category Glow */
+.category-strip button.active {
+  box-shadow: 0 0 15px rgba(255, 77, 0, 0.4);
+  border-color: #ff4d00;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-strip button.active::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
+  animation: rotateGlow 4s linear infinite;
+}
+
+@keyframes rotateGlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Screen Fire Glow (Scroll Effect) */
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: inset 0 0 0px #ff4d00;
+  transition: box-shadow 0.4s ease;
+}
+
+#app.scrolling-fast::before {
+  box-shadow: inset 0 0 40px rgba(255, 77, 0, 0.15);
 }
 
 /* Reduced Transparency Fallbacks */

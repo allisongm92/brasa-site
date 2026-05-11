@@ -69,6 +69,7 @@ export function renderCards(mood = 'classic') {
       <span class="tag">${productText(product, 'tag')}</span>
       <img src="${product.img}" alt="${productText(product, 'name')}" loading="lazy" data-hero-img>
       <div>
+        ${(product.tag && (productText(product, 'tag').toLowerCase().includes('vendido') || productText(product, 'tag').toLowerCase().includes('popular'))) ? `<span class="social-proof-label">${translations[currentLang].socialProof}</span>` : ''}
         <h3 data-hero-name>${productText(product, 'name')}</h3>
         ${profileMarkup(product)}
         ${meterMarkup(product)}
@@ -92,24 +93,33 @@ export function renderMenu() {
     'drinks': 2,
     'desserts': 3
   };
+
+  const categories = ['burgers', 'sides', 'drinks', 'desserts'];
   
+  wrap.innerHTML = categories.map(cat => {
+    const matches = productCatalog.filter(p => p.category === cat);
+    return `
+      <div class="category-section" data-cat="${cat}">
+        ${matches.map(product => `
+          <article class="menu-item" data-product-id="${product.id}" tabindex="0" role="button">
+            <img src="${product.img}" alt="${productText(product, 'name')}" loading="lazy" data-hero-img>
+            <div>
+              ${(product.tag && (productText(product, 'tag').toLowerCase().includes('vendido') || productText(product, 'tag').toLowerCase().includes('popular'))) ? `<span class="social-proof-label">${translations[currentLang].socialProof}</span>` : ''}
+              <h3 data-hero-name>${productText(product, 'name')}</h3>
+              <p>${productText(product, 'desc')}</p>
+              <strong>$${product.price}</strong>
+            </div>
+            <button class="add-btn" aria-label="${t('addLabel')} ${productText(product, 'name')}">+</button>
+          </article>
+        `).join('')}
+      </div>
+    `;
+  }).join('');
+
+  // Initial title update
   if (sectionTitle) {
     sectionTitle.textContent = translations[currentLang].categories[categoriesMap[currentCategory]];
   }
-
-  const matches = productCatalog.filter(p => p.category === currentCategory);
-  
-  wrap.innerHTML = matches.map(product => `
-    <article class="menu-item" data-product-id="${product.id}" tabindex="0" role="button">
-      <img src="${product.img}" alt="${productText(product, 'name')}" loading="lazy" data-hero-img>
-      <div>
-        <h3 data-hero-name>${productText(product, 'name')}</h3>
-        <p>${productText(product, 'desc')}</p>
-        <strong>$${product.price}</strong>
-      </div>
-      <button class="add-btn" aria-label="${t('addLabel')} ${productText(product, 'name')}">+</button>
-    </article>
-  `).join('');
 }
 
 export function populateProduct(product) {
@@ -348,6 +358,30 @@ export function processWhatsAppCheckout() {
   // Clear cart and show success screen
   cart.clearCart();
   go('success');
+  fireFryExplosion();
+}
+
+function fireFryExplosion() {
+  const fryCount = 40;
+  const emojis = ['🍟', '🍟', '🍟', '🍔', '🥓']; // Predominantly fries
+
+  for (let i = 0; i < fryCount; i++) {
+    const fry = document.createElement('div');
+    fry.className = 'fry-particle';
+    fry.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    
+    const startX = Math.random() * window.innerWidth;
+    const duration = 2 + Math.random() * 2;
+    const delay = Math.random() * 1.5;
+    
+    fry.style.left = `${startX}px`;
+    fry.style.animationDuration = `${duration}s`;
+    fry.style.animationDelay = `${delay}s`;
+    
+    document.body.appendChild(fry);
+    
+    setTimeout(() => fry.remove(), (duration + delay) * 1000);
+  }
 }
 
 export function showToast(msg) {

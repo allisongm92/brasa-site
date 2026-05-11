@@ -10,6 +10,9 @@ let lastSourceCard = null;
 export let lastProduct = null;
 export let lastSourceScreen = null;
 
+let scrollTimeout;
+let lastY = 0;
+
 export function updateHeroExperience() {
   const shell = document.getElementById('app');
   const hero = document.getElementById('hero');
@@ -25,6 +28,19 @@ export function updateHeroExperience() {
 
   hero.style.setProperty('--hero-progress', progress.toFixed(2));
   hero.classList.toggle('revealed', progress > .18);
+
+  // Fast Scroll Detection for "Fire Glow"
+  const currentY = shell.scrollTop;
+  const speed = Math.abs(currentY - lastY);
+  lastY = currentY;
+
+  if (speed > 50) {
+    shell.classList.add('scrolling-fast');
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      shell.classList.remove('scrolling-fast');
+    }, 200);
+  }
 }
 
 export function heroTransition(sourceCard, product) {
@@ -269,4 +285,28 @@ export function reverseHeroTransition() {
       heroAnimating = false;
     });
   });
+}
+
+export function createSparks(x, y) {
+  const sparkCount = 8;
+  for (let i = 0; i < sparkCount; i++) {
+    const spark = document.createElement('div');
+    spark.className = 'spark';
+    
+    // Random direction
+    const angle = Math.random() * Math.PI * 2;
+    const velocity = 30 + Math.random() * 50;
+    const tx = Math.cos(angle) * velocity;
+    const ty = Math.sin(angle) * velocity;
+    
+    spark.style.left = `${x}px`;
+    spark.style.top = `${y}px`;
+    spark.style.setProperty('--tx', `${tx}px`);
+    spark.style.setProperty('--ty', `${ty}px`);
+    
+    document.body.appendChild(spark);
+    
+    // Clean up
+    setTimeout(() => spark.remove(), 500);
+  }
 }

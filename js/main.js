@@ -20,7 +20,8 @@ import { translations } from './data/i18n.js';
 import { 
   updateHeroExperience, 
   heroTransition, 
-  reverseHeroTransition 
+  reverseHeroTransition,
+  createSparks
 } from './ui/animations.js';
 
 export const shell = document.getElementById('app');
@@ -195,13 +196,17 @@ document.addEventListener('click', event => {
   const categoryBtn = event.target.closest('.category-strip button');
   if (categoryBtn) {
     const newCategory = categoryBtn.dataset.category || categoryBtn.dataset.filter || 'burgers';
-    document.querySelectorAll('.category-strip button').forEach(button => {
-      const value = button.dataset.category || button.dataset.filter || 'burgers';
-      button.classList.toggle('active', value === newCategory);
-    });
-    setCurrentCategory(newCategory);
-    renderMenu();
-    if (categoryBtn.closest('#home')) go('menu');
+    const slider = document.getElementById('menuList');
+    const targetSection = slider.querySelector(`.category-section[data-cat="${newCategory}"]`);
+    
+    if (targetSection) {
+      slider.scrollTo({ left: targetSection.offsetLeft, behavior: 'smooth' });
+    } else {
+      // Fallback for home screen quick navigation
+      setCurrentCategory(newCategory);
+      renderMenu();
+      if (categoryBtn.closest('#home')) go('menu');
+    }
     return;
   }
 
@@ -338,3 +343,39 @@ cart.subscribe((items) => {
 
 // Initialization
 applyLanguage('pt');
+
+// Slider Sync
+const menuList = document.getElementById('menuList');
+if (menuList) {
+  menuList.addEventListener('scroll', () => {
+    const width = menuList.offsetWidth;
+    const index = Math.round(menuList.scrollLeft / width);
+    const categories = ['burgers', 'sides', 'drinks', 'desserts'];
+    const cat = categories[index];
+    
+    if (cat) {
+      setCurrentCategory(cat);
+      // Update buttons
+      document.querySelectorAll('.category-strip button').forEach(button => {
+        const val = button.dataset.category || button.dataset.filter;
+        button.classList.toggle('active', val === cat);
+      });
+      // Update Title
+      const title = document.querySelector('#menu .section-title h2');
+      if (title) {
+        title.textContent = translations[currentLang].categories[index];
+      }
+    }
+  }, { passive: true });
+}
+
+// Global Sparks Effect
+document.addEventListener('mousedown', (e) => {
+  createSparks(e.clientX, e.clientY);
+});
+
+document.addEventListener('touchstart', (e) => {
+  if (e.touches.length > 0) {
+    createSparks(e.touches[0].clientX, e.touches[0].clientY);
+  }
+}, { passive: true });

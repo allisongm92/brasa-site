@@ -82,7 +82,8 @@ export const translations = {
     orderSentDesc: 'Seu pedido foi enviado pelo WhatsApp. Confirmaremos em breve.',
     backToMenu: 'Voltar ao Cardápio',
     upsellTitle: 'Que tal acompanhar?',
-    upsellAdd: 'Adicionar'
+    upsellAdd: 'Adicionar',
+    socialProof: 'O queridinho da casa'
   },
   es: {
     code: 'ES',
@@ -167,7 +168,8 @@ export const translations = {
     orderSentDesc: 'Tu pedido ha sido enviado por WhatsApp. Confirmaremos pronto.',
     backToMenu: 'Volver al Menú',
     upsellTitle: '¿Qué tal acompañar?',
-    upsellAdd: 'Agregar'
+    upsellAdd: 'Agregar',
+    socialProof: 'El favorito de la casa'
   },
   en: {
     code: 'EN',
@@ -252,6 +254,7 @@ export const translations = {
     orderSentDesc: 'Your order has been sent via WhatsApp. We will confirm it shortly.',
     backToMenu: 'Back to Menu',
     upsellTitle: 'How about a side?',
-    upsellAdd: 'Add'
+    upsellAdd: 'Add',
+    socialProof: 'House Favorite'
   }
 };
