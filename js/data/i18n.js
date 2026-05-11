@@ -169,7 +169,8 @@ export const translations = {
     backToMenu: 'Volver al Menú',
     upsellTitle: '¿Qué tal acompañar?',
     upsellAdd: 'Agregar',
-    socialProof: 'El favorito de la casa'
+    socialProof: 'El favorito de la casa',
+    hotStatus: 'pedidos saliendo ahora'
   },
   en: {
     code: 'EN',

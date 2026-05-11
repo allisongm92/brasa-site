@@ -2157,8 +2157,30 @@ button:active,
   animation: rotateGlow 4s linear infinite;
 }
 
+.category-glow {
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(from 0deg, transparent, #ff4d00, transparent);
+  border-radius: 20px;
+  animation: rotateGlow 3s linear infinite;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.hot-status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #ff4d00;
+  background: rgba(255, 77, 0, 0.1);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 @keyframes rotateGlow {
-  from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 

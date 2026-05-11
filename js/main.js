@@ -339,6 +339,7 @@ function handleMainAddToCart(button) {
 cart.subscribe((items) => {
   renderCartList();
   updateCartTotals();
+  updateFloatingCart();
 });
 
 // Initialization
@@ -367,6 +368,19 @@ if (menuList) {
       }
     }
   }, { passive: true });
+}
+
+function updateFloatingCart() {
+  const btn = document.getElementById('floatingCart');
+  const badge = btn?.querySelector('.floating-badge');
+  const total = cart.getTotalItems();
+  const currentScreen = document.querySelector('.screen.active')?.id;
+
+  if (btn && badge) {
+    const isVisible = total > 0 && currentScreen !== 'cart' && currentScreen !== 'success';
+    btn.classList.toggle('visible', isVisible);
+    badge.textContent = total;
+  }
 }
 
 // Global Sparks Effect

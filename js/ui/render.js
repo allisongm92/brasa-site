@@ -59,6 +59,12 @@ function meterMarkup(product) {
   `;
 }
 
+function getHotCount(id) {
+  const hour = new Date().getHours();
+  const seed = id.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+  return (seed % 7) + (hour % 4) + 2; 
+}
+
 export function renderCards(mood = 'classic') {
   const wrap = document.getElementById('popularCards');
   if (!wrap) return;
@@ -106,6 +112,7 @@ export function renderMenu() {
             <div>
               ${(product.tag && (productText(product, 'tag').toLowerCase().includes('vendido') || productText(product, 'tag').toLowerCase().includes('popular'))) ? `<span class="social-proof-label">${translations[currentLang].socialProof}</span>` : ''}
               <h3 data-hero-name>${productText(product, 'name')}</h3>
+              ${product.popular ? `<div class="hot-status">🔥 <b>${getHotCount(product.id)}</b> ${translations[currentLang].hotStatus}</div>` : ''}
               <p>${productText(product, 'desc')}</p>
               <strong>$${product.price}</strong>
             </div>
@@ -194,11 +201,18 @@ export function renderCartList() {
   const items = cart.items;
 
   if (items.length === 0) {
-    container.innerHTML = `<p style="text-align:center; padding: 2rem; color: var(--text-secondary); opacity: 0.7;">Carrinho vazio / Empty cart</p>`;
-    // Optionally update checkout button state
+    container.innerHTML = `
+      <div class="empty-cart-smoky">
+        <div class="smoky-icon">🍔</div>
+        <p>${copy.signature || 'A brasa está acesa.'}<br>Só falta o seu pedido.</p>
+        <button class="primary-btn" data-screen="menu" style="width: auto; padding: 0.8rem 2rem;">Ver Cardápio</button>
+      </div>
+    `;
+    // Update checkout button state
     const checkoutBtn = document.querySelector('.checkout-btn');
-    if (checkoutBtn) checkoutBtn.style.opacity = '0.5';
-    if (checkoutBtn) checkoutBtn.style.pointerEvents = 'none';
+    if (checkoutBtn) {
+      checkoutBtn.style.display = 'none';
+    }
     
     // Update badge to empty
     const badge = document.getElementById('cartBadge');
@@ -240,8 +254,6 @@ export function renderCartList() {
             <b>${item.quantity}</b>
             <button data-qty="plus" data-id="${item.uniqueId}" tabindex="0">+</button>
           </div>
-          <!-- We could support editing later, keeping button just in case -->
-          <!-- <button class="text-btn" data-screen="customize" data-id="${item.uniqueId}">${copy.editModifiers}</button> -->
         </div>
       </article>
     `;
