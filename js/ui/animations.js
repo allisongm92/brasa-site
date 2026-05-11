@@ -11,7 +11,7 @@ export let lastProduct = null;
 export let lastSourceScreen = null;
 
 export function updateHeroExperience() {
-  const shell = document.getElementById('shell');
+  const shell = document.getElementById('app');
   const hero = document.getElementById('hero');
   if (!shell || !hero) return;
 
@@ -38,7 +38,7 @@ export function heroTransition(sourceCard, product) {
     return;
   }
 
-  const shell = document.getElementById('shell');
+  const shell = document.getElementById('app');
   const screens = document.querySelectorAll('.screen');
 
   lastScrollTop = shell.scrollTop;
@@ -164,7 +164,7 @@ export function reverseHeroTransition() {
   }
   heroAnimating = true;
 
-  const shell = document.getElementById('shell');
+  const shell = document.getElementById('app');
   const overlay = document.getElementById('heroOverlay');
   const productScreen = document.getElementById('product');
   const targetScreen = document.getElementById(lastSourceScreen);
