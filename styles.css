@@ -1882,12 +1882,16 @@ button {
 }
 
 /* Success Screen */
-#success {
+#success.active {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   background: var(--bg);
+}
+
+#success {
+  display: none;
 }
 
 .success-content {

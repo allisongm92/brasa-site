@@ -8,21 +8,22 @@ import {
   renderMenu, 
   setCurrentCategory, 
   currentCategory,
+  selectedProduct,
   updateScreenTotal,
   renderCartList,
   updateCartTotals,
   processWhatsAppCheckout,
   showToast,
-  currentLang,
-  translations
+  currentLang
 } from './ui/render.js';
+import { translations } from './data/i18n.js';
 import { 
   updateHeroExperience, 
   heroTransition, 
   reverseHeroTransition 
 } from './ui/animations.js';
 
-export const shell = document.querySelector('.phone-shell');
+export const shell = document.getElementById('app');
 export const screens = [...document.querySelectorAll('.screen')];
 export let lastScreenBeforeCart = 'home';
 
@@ -76,7 +77,9 @@ if (languageToggle && languageMenu) {
 }
 
 // Scroll animation
-shell.addEventListener('scroll', updateHeroExperience);
+if (shell) {
+  shell.addEventListener('scroll', updateHeroExperience);
+}
 window.addEventListener('scroll', updateHeroExperience, { passive: true });
 
 // Form events (Extras)
