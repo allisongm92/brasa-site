@@ -562,6 +562,28 @@ button {
   backdrop-filter: blur(14px);
 }
 
+.brand-logo h1 {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin: 0;
+  background: linear-gradient(135deg, #fff 0%, #FF6B35 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: brasaGlow 3s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+@keyframes brasaGlow {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(255, 107, 53, 0.2));
+    opacity: 0.9;
+  }
+  100% {
+    filter: drop-shadow(0 0 8px rgba(255, 107, 53, 0.8));
+    opacity: 1;
+  }
+}
+
 .smoke {
   position: absolute;
   inset: 0;
@@ -870,17 +892,26 @@ button {
   transform: scale(1.08);
 }
 
-.tag {
+.product-card .tag {
   position: absolute;
   top: 12px;
-  left: 12px;
-  color: var(--accent);
-  background: rgba(0, 0, 0, .55);
-  padding: 7px 10px;
-  border-radius: 10px;
+  right: 12px;
+  background: var(--accent);
+  color: #000;
+  padding: 4px 10px;
+  border-radius: 100px;
   font-size: 11px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: .09em;
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+  animation: tagPulse 2s infinite;
+}
+
+@keyframes tagPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 107, 53, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
 }
 
 .taste-profile {
