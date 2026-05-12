@@ -170,7 +170,22 @@ export function heroTransition(sourceCard, product) {
       overlay.classList.remove('active');
       heroAnimating = false;
     });
+  }).catch(err => {
+    console.error("Hero animation failed:", err);
+    productScreen.style.opacity = '';
+    heroAnimating = false;
+    overlay.classList.remove('active');
+    document.querySelectorAll('.hero-clone-img, .hero-clone-name').forEach(el => el.remove());
   });
+
+  // Safety timeout: reset anyway after 2 seconds if something hangs
+  setTimeout(() => {
+    if (heroAnimating) {
+      heroAnimating = false;
+      overlay.classList.remove('active');
+      document.querySelectorAll('.hero-clone-img, .hero-clone-name').forEach(el => el.remove());
+    }
+  }, 2000);
 }
 
 export function reverseHeroTransition() {
@@ -284,7 +299,19 @@ export function reverseHeroTransition() {
       overlay.classList.remove('active');
       heroAnimating = false;
     });
+  }).catch(() => {
+    heroAnimating = false;
+    overlay.classList.remove('active');
+    document.querySelectorAll('.hero-clone-img, .hero-clone-name').forEach(el => el.remove());
   });
+
+  setTimeout(() => {
+    if (heroAnimating) {
+      heroAnimating = false;
+      overlay.classList.remove('active');
+      document.querySelectorAll('.hero-clone-img, .hero-clone-name').forEach(el => el.remove());
+    }
+  }, 2000);
 }
 
 export function createSparks(x, y) {
